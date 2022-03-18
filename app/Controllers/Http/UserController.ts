@@ -5,8 +5,12 @@ export default class UserController
 {
     public async index ({ response }: HttpContextContract)
     {
-        let all = await User.query();
+        let all_users = await User.query();
 
-        response.ok(all);
+        for(let user of all_users)
+        {
+        }
+
+        response.ok(all_users);
     }
 }
