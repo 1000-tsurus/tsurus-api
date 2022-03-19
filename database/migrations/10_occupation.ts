@@ -10,15 +10,6 @@ export default class Occupation extends BaseSchema
         {
             table.increments('id').primary();
 
-            table
-                .integer('user_id')
-                .unique()
-                .notNullable()
-                .unsigned()
-                .references('id')
-                .inTable('users')
-                .onDelete('CASCADE');
-
             table.string('occupation_name').nullable();
 
             table.dateTime('occupation_date_time');

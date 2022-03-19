@@ -10,15 +10,6 @@ export default class Token extends BaseSchema
         {
             table.increments('id');
 
-            table
-                .integer('user_id')
-                .unique()
-                .notNullable();
-            // .unsigned()
-            // .references('id')
-            // .inTable('users')
-            // .onDelete('CASCADE');
-
             table.integer('type').notNullable();
             table.string('token', 64).nullable().unique();
 

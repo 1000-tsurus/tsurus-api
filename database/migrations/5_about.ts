@@ -10,55 +10,7 @@ export default class About extends BaseSchema
         {
             table.increments('id').primary();
 
-            table
-                .integer('user_id')
-                .notNullable()
-                .unsigned();
-            // .references('id')
-            // .inTable('users')
-            // .onDelete('CASCADE');
-
             table.string('about', 225).notNullable();
-
-            table
-                .integer('occupation_id')
-                .notNullable()
-                .unsigned();
-            // .references('id')
-            // .inTable('occupation')
-            // .onDelete('CASCADE');
-
-            table
-                .integer('trajectory_id')
-                .notNullable()
-                .unsigned();
-            // .references('id')
-            // .inTable('trajectory')
-            // .onDelete('CASCADE');
-
-            table
-                .integer('to_help_id')
-                .notNullable()
-                .unsigned();
-            // .references('id')
-            // .inTable('to_help')
-            // .onDelete('CASCADE');
-
-            table
-                .integer('employer_id')
-                .notNullable()
-                .unsigned();
-            // .references('id')
-            // .inTable('skill_categories')
-            // .onDelete('CASCADE');
-
-            table
-                .integer('skill_category_id')
-                .notNullable()
-                .unsigned();
-            // .references('id')
-            // .inTable('skill_categories')
-            // .onDelete('CASCADE');
 
             /**
              * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL

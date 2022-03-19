@@ -10,15 +10,6 @@ export default class Trajectory extends BaseSchema
         {
             table.increments('id').primary();
 
-            table
-                .integer('user_id')
-                .unique()
-                .notNullable();
-            // .unsigned()
-            // .references('id')
-            // .inTable('users')
-            // .onDelete('CASCADE');
-
             table.string('trajectory_text').nullable();
         });
     }

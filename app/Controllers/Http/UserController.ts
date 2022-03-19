@@ -7,10 +7,6 @@ export default class UserController
     {
         let all_users = await User.query();
 
-        for(let user of all_users)
-        {
-        }
-
         response.ok(all_users);
     }
 }
