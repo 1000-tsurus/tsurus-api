@@ -10,7 +10,7 @@ export default class Skill_category extends BaseSchema
         {
             table.increments('id').primary();
 
-            table.string('name').nullable();
+            table.string('skill_name').nullable();
 
             table.dateTime('deleted_at').nullable().defaultTo(null);
         });

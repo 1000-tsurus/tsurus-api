@@ -6,55 +6,44 @@ export default class About extends BaseSchema
 
     public async up ()
     {
-        this.schema.alterTable(this.tableName, (table) =>
+        this.schema.createTable(this.tableName, (table) =>
         {
-            table
-                .integer('user_id')
-                .notNullable()
-                .unsigned()
-                .references('id')
-                .inTable('users')
-                .onDelete('CASCADE')
+            table.increments('id').primary();
 
             table
                 .integer('occupation_id')
-                .notNullable()
                 .unsigned()
                 .references('id')
                 .inTable('occupation')
-                .onDelete('CASCADE')
+                .onDelete('CASCADE');
 
             table
                 .integer('trajectory_id')
-                .notNullable()
                 .unsigned()
                 .references('id')
                 .inTable('trajectory')
-                .onDelete('CASCADE')
+                .onDelete('CASCADE');
 
             table
                 .integer('to_help_id')
-                .notNullable()
                 .unsigned()
                 .references('id')
                 .inTable('to_help')
-                .onDelete('CASCADE')
+                .onDelete('CASCADE');
 
             table
                 .integer('employer_id')
-                .notNullable()
                 .unsigned()
                 .references('id')
                 .inTable('skill_categories')
-                .onDelete('CASCADE')
+                .onDelete('CASCADE');
 
             table
                 .integer('skill_category_id')
-                .notNullable()
                 .unsigned()
                 .references('id')
                 .inTable('skill_categories')
-                .onDelete('CASCADE')
+                .onDelete('CASCADE');
         });
     }
 

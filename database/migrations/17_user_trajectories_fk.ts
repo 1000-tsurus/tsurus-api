@@ -1,12 +1,12 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 
-export default class Trajectory extends BaseSchema
+export default class UserTrajectory extends BaseSchema
 {
-    protected tableName = 'trajectory';
+    protected tableName = 'user_trajectory';
 
     public async up ()
     {
-        this.schema.alterTable(this.tableName, (table) =>
+        this.schema.createTable(this.tableName, (table) =>
         {
             table
                 .integer('user_id')
@@ -15,7 +15,16 @@ export default class Trajectory extends BaseSchema
                 .unsigned()
                 .references('id')
                 .inTable('users')
-                .onDelete('CASCADE')
+                .onDelete('CASCADE');
+
+            table
+                .integer('trajectory_id')
+                .unique()
+                .notNullable()
+                .unsigned()
+                .references('id')
+                .inTable('trajectory')
+                .onDelete('CASCADE');
         });
     }
 

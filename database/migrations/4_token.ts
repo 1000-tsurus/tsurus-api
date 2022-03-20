@@ -14,8 +14,9 @@ export default class Token extends BaseSchema
             table.string('token', 64).nullable().unique();
 
             /**
-             * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-             */
+            * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
+            */
+
             table.timestamp('created_at', { useTz: true });
             table.timestamp('updated_at', { useTz: true });
         });

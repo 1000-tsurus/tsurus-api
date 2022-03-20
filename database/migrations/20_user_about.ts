@@ -1,30 +1,34 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 
-export default class UserTo_help extends BaseSchema
+export default class UsersAbout extends BaseSchema
 {
-    protected tableName = 'user_to_help';
+    protected tableName = 'user_about';
 
     public async up ()
     {
         this.schema.createTable(this.tableName, (table) =>
         {
+            table.increments('id').primary();
+
+            table
+                .integer('about_id')
+                .notNullable()
+                .unsigned()
+                .references('id')
+                .inTable('about')
+                .onDelete('CASCADE');
+
             table
                 .integer('user_id')
-                .unique()
                 .notNullable()
                 .unsigned()
                 .references('id')
                 .inTable('users')
                 .onDelete('CASCADE');
 
-            table
-                .integer('to_help_id')
-                .unique()
-                .notNullable()
-                .unsigned()
-                .references('id')
-                .inTable('to_help')
-                .onDelete('CASCADE');
+            table.timestamp('created_at', { useTz: true }).notNullable();
+            table.timestamp('updated_at', { useTz: true }).notNullable();
+            table.dateTime('deleted_at').nullable().defaultTo(null);
         });
     }
 

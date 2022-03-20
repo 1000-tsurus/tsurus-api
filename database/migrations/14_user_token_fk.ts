@@ -15,7 +15,7 @@ export default class Token extends BaseSchema
                 .unsigned()
                 .references('id')
                 .inTable('users')
-                .onDelete('CASCADE')
+                .onDelete('CASCADE');
         });
     }
 

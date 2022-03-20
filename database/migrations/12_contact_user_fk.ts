@@ -1,13 +1,15 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 
-export default class Contact extends BaseSchema
+export default class UserContact extends BaseSchema
 {
-    protected tableName = 'contact';
+    protected tableName = 'user_contact';
 
     public async up ()
     {
-        this.schema.alterTable(this.tableName, (table) =>
+        this.schema.createTable(this.tableName, (table) =>
         {
+            table.increments('id').primary();
+
             table
                 .integer('user_id')
                 .unique()
@@ -15,15 +17,15 @@ export default class Contact extends BaseSchema
                 .unsigned()
                 .references('id')
                 .inTable('users')
-                .onDelete('CASCADE')
+                .onDelete('CASCADE');
 
             table
-                .integer('phone_id')
+                .integer('contact_id')
                 .notNullable()
                 .unsigned()
                 .references('id')
-                .inTable('phone')
-                .onDelete('CASCADE')
+                .inTable('contact')
+                .onDelete('CASCADE');
         });
     }
 
