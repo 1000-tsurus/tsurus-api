@@ -91,7 +91,6 @@ export default class UserController
         {
             try
             {
-                // cache_about.user_id = created_user.id;
                 cache_about = await cache_about.save();
             }
             catch (error)
