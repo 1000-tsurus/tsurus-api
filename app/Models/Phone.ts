@@ -22,11 +22,6 @@ export default class Phone extends BaseModel
     @column()
     public is_public: boolean;
 
-    /** ----------------------- HasOne --------------------------- **/
-
-    @hasOne(() => User, {localKey: 'user_id', foreignKey: 'id'})
-    public user_id: HasOne<typeof User>;
-
     @column.dateTime({ autoCreate: true })
     public updatedAt: DateTime;
 

@@ -1,8 +1,8 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 
-export default class About extends BaseSchema
+export default class UserSkill_category extends BaseSchema
 {
-    protected tableName = 'about';
+    protected tableName = 'user_skill_categories';
 
     public async up ()
     {
@@ -11,24 +11,17 @@ export default class About extends BaseSchema
             table.increments('id').primary();
 
             table
-                .integer('occupation_id')
+                .integer('user_id')
                 .unsigned()
                 .references('id')
-                .inTable('occupation')
+                .inTable('users')
                 .onDelete('CASCADE');
 
             table
-                .integer('trajectory_id')
+                .integer('skill_category_id')
                 .unsigned()
                 .references('id')
-                .inTable('trajectory')
-                .onDelete('CASCADE');
-
-            table
-                .integer('to_help_id')
-                .unsigned()
-                .references('id')
-                .inTable('to_help')
+                .inTable('skill_categories')
                 .onDelete('CASCADE');
         });
     }

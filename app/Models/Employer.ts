@@ -16,11 +16,6 @@ export default class Employer extends BaseModel
     @column.dateTime()
     public entry_date_time: DateTime;
 
-    /** ----------------------- HasOne --------------------------- **/
-
-    @hasOne(() => User, {localKey: 'user_id', foreignKey: 'id'})
-    public user_id: HasOne<typeof User>;
-
     @column.dateTime({ autoCreate: true })
     public deletedAt: DateTime;
 

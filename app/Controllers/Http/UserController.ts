@@ -6,6 +6,7 @@ import SkillCategory from 'App/Models/SkillCategory';
 import ToHelp from 'App/Models/ToHelp';
 import Trajectory from 'App/Models/Trajectory';
 import User from 'App/Models/User';
+import UserOccupation from 'App/Models/UserOccupation';
 import { UserValidator } from 'App/Validators/UserValidator';
 import {DateTime} from 'luxon';
 
@@ -35,67 +36,85 @@ export default class UserController
             skill_name,
         } = await request.validate(UserValidator);
 
-        let cache_user = new User(),
-            cache_about = new About(),
-            cache_occupation = new Occupation(),
-            cache_trajectory = new Trajectory(),
-            cache_to_help = new ToHelp(),
-            cache_employer = new Employer(),
-            cache_skill_category = new SkillCategory();
-
-        /* ------ user infos ------ */
-        cache_user.full_name = full_name;
-        cache_user.password = password;
-        cache_user.email = email;
-        cache_user.type_id = 1;
-        cache_user.icon_url = icon_url || 'https://picsum.photos/300';
-        cache_user.createdAt = DateTime.local();
-        cache_user.updatedAt = DateTime.local();
-
-        /* ------ user infos ------ */
-        cache_about.about = about;
-
-        /* ------ occupation infos ------ */
-        cache_occupation.occupation_name = occupation_name;
-        cache_occupation.occupation_date_time = DateTime.local();
-
-        /* ------ trajectory infos ------ */
-        cache_trajectory.trajectory_text = trajectory_text;
-        cache_trajectory.createdAt = DateTime.local();
-
-        /* ------ to_help infos ------ */
-        cache_to_help.to_help_text = to_help_text;
-        cache_to_help.createdAt = DateTime.local();
-
-        /* ------ employer infos ------ */
-        cache_employer.employer = employer;
-        cache_employer.entry_date_time = entry_date_time;
-        cache_employer.role = role;
-
-        /* ------ skill_category infos ------ */
-        cache_skill_category.skill_name = skill_name;
-
-        // eslint-disable-next-line one-var
-        let created_user: User| null = null;
+        let created_user: User | null = null;
 
         try
         {
-            created_user = await cache_user.save();
+            created_user = await User.create({
+                full_name,
+                password,
+                email,
+                icon_url,
+                about,
+            });
         }
         catch (error)
         {
             response.internalServerError(error);
         }
 
-        if(created_user)
+        if (created_user)
         {
+            let created_occupation: Occupation | null = null,
+                created_trajectory: Trajectory | null = null,
+                created_to_help: ToHelp | null = null,
+                created_employer: Employer | null = null,
+                created_skill_category: SkillCategory | null = null;
+
             try
             {
-                cache_about = await cache_about.save();
+                created_occupation = await Occupation.create({
+                    occupation_name,
+                    occupation_date_time: entry_date_time,
+                    createdAt: DateTime.local(),
+                });
+
+                created_trajectory = await Trajectory.create({
+                    trajectory_text,
+                    createdAt: DateTime.local(),
+                });
+
+                created_to_help = await ToHelp.create({
+                    to_help_text,
+                    createdAt: DateTime.local(),
+                });
+
+                created_employer = await Employer.create({
+                    employer,
+                    entry_date_time,
+                    role,
+                    createdAt: DateTime.local(),
+                });
+
+                created_skill_category = await SkillCategory.create({
+                    skill_name,
+                });
             }
             catch (error)
             {
                 response.internalServerError(error);
+            }
+
+            if (
+                created_occupation &&
+                created_trajectory &&
+                created_to_help &&
+                created_employer &&
+                created_skill_category
+            )
+            {
+                try
+                {
+                    // salva as relações em tabelas pivots
+                    await UserOccupation.create({
+                        user_id: created_user.id,
+                        occupation_id: created_occupation.id,
+                    });
+                }
+                catch (error)
+                {
+                    response.internalServerError(error);
+                }
             }
         }
     }

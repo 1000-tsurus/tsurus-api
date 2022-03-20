@@ -10,11 +10,6 @@ export default class Occupation extends BaseModel
     @column()
     public occupation_name: string;
 
-    /** ----------------------- HasOne --------------------------- **/
-
-    @hasOne(() => User, {localKey: 'user_id', foreignKey: 'id'})
-    public user_id: HasOne<typeof User>;
-
     @column.dateTime()
     public occupation_date_time: DateTime;
 

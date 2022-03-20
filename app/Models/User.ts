@@ -1,8 +1,15 @@
 import { DateTime } from 'luxon';
 import Hash from '@ioc:Adonis/Core/Hash';
-import { column, beforeSave, BaseModel, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm';
+import { column, beforeSave, BaseModel, hasOne, HasOne, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm';
 import About from './About';
 import Phone from './Phone';
+import Contact from './Contact';
+import Employer from './Employer';
+import Occupation from './Occupation';
+import UserPhone from './UserPhone';
+import SkillCategory from './SkillCategory';
+import ToHelp from './ToHelp';
+import Trajectory from './Trajectory';
 
 export default class User extends BaseModel
 {
@@ -24,22 +31,75 @@ export default class User extends BaseModel
     @column()
     public type_id: number;
 
+    @column()
+    public about: string;
+
     @column.dateTime({ autoCreate: true })
-    public createdAt: DateTime;
+    public created_at: DateTime;
 
     @column.dateTime({ autoCreate: true, autoUpdate: true })
-    public updatedAt: DateTime;
+    public updated_at: DateTime;
 
     @column.dateTime({ serializeAs: null })
-    public deletedAt?: DateTime;
+    public deleted_at?: DateTime;
 
-    /** ----------------------- HasOne --------------------------- **/
+    /* -------------------- ManyToMany ------------------- */
 
-    @hasOne(() => About, {localKey: 'about_id', foreignKey: 'id'})
-    public about_id: HasOne<typeof About>;
+    @manyToMany(() => About, {
+        pivotTable: 'user_about',
+        pivotForeignKey: 'user_id',
+        pivotRelatedForeignKey: 'about_id',
+    })
+    public abouts: ManyToMany<typeof About>;
 
-    @hasOne(() => Phone, {localKey: 'phone_id', foreignKey: 'id'})
-    public phone_id: HasOne<typeof Phone>;
+    @manyToMany(() => Contact, {
+        pivotTable: 'user_contact',
+        pivotForeignKey: 'user_id',
+        pivotRelatedForeignKey: 'contact_id',
+    })
+    public contact: ManyToMany<typeof Contact>;
+
+    @manyToMany(() => Employer, {
+        pivotTable: 'user_employer',
+        pivotForeignKey: 'user_id',
+        pivotRelatedForeignKey: 'employer_id',
+    })
+    public employer: ManyToMany<typeof Employer>;
+
+    @manyToMany(() => Occupation, {
+        pivotTable: 'user_occupation',
+        pivotForeignKey: 'user_id',
+        pivotRelatedForeignKey: 'occupation_id',
+    })
+    public occupation: ManyToMany<typeof Occupation>;
+
+    @manyToMany(() => Phone, {
+        pivotTable: 'user_phone',
+        pivotForeignKey: 'user_id',
+        pivotRelatedForeignKey: 'phone_id',
+    })
+    public phone: ManyToMany<typeof Phone>;
+
+    @manyToMany(() => SkillCategory, {
+        pivotTable: 'user_skill_categories',
+        pivotForeignKey: 'user_id',
+        pivotRelatedForeignKey: 'skill_category_id',
+    })
+    public skill_category: ManyToMany<typeof SkillCategory>;
+
+    @manyToMany(() => ToHelp, {
+        pivotTable: 'user_to_help',
+        pivotForeignKey: 'user_id',
+        pivotRelatedForeignKey: 'to_help_id',
+    })
+    public to_help: ManyToMany<typeof ToHelp>;
+
+    @manyToMany(() => Trajectory, {
+        pivotTable: 'user_trajectory',
+        pivotForeignKey: 'user_id',
+        pivotRelatedForeignKey: 'trajectory_id',
+    })
+    public trajectory: ManyToMany<typeof Trajectory>;
 
     @beforeSave()
     public static async hashPassword (user: User)

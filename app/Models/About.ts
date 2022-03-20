@@ -13,30 +13,34 @@ export default class About extends BaseModel
     public id: number;
 
     @column()
-    public about: string;
+    public occupation_id: number;
+
+    @column()
+    public trajectory_id: number;
+
+    @column()
+    public to_help_id: number;
+
+    @column()
+    public employer_id: number;
+
+    @column()
+    public skill_category_id: number;
 
     /** ----------------------- HasOne --------------------------- **/
 
-    @hasOne(() => User, {localKey: 'user_id', foreignKey: 'id'})
-    public user_id: HasOne<typeof User>;
-
     @hasOne(() => Occupation, {localKey: 'occupation_id', foreignKey: 'id'})
-    public occupation_id: HasOne<typeof Occupation>;
+    public occupation: HasOne<typeof Occupation>;
 
     @hasOne(() => Trajectory, {localKey: 'trajectory_id', foreignKey: 'id'})
-    public trajectory_id: HasOne<typeof Trajectory>;
+    public trajectory: HasOne<typeof Trajectory>;
 
     @hasOne(() => ToHelp, {localKey: 'to_help_id', foreignKey: 'id'})
-    public to_help_id: HasOne<typeof ToHelp>;
+    public to_help: HasOne<typeof ToHelp>;
 
     @hasOne(() => Employer, {localKey: 'employer_id', foreignKey: 'id'})
-    public employer_id: HasOne<typeof Employer>;
+    public employer: HasOne<typeof Employer>;
 
     @hasOne(() => SkillCategory, {localKey: 'skill_category_id', foreignKey: 'id'})
-    public skill_category_id: HasOne<typeof SkillCategory>;
-
-    /** ---------------------------------------------------------- **/
-
-    @column.dateTime({ autoCreate: true })
-    public createdAt: DateTime;
+    public skill_category: HasOne<typeof SkillCategory>;
 }

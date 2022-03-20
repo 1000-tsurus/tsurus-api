@@ -20,12 +20,6 @@ export default class Contact extends BaseModel
     @column()
     public personal_url: string;
 
-    /** ----------------------- HasOne --------------------------- **/
-
-    @hasOne(() => User, {localKey: 'user_id', foreignKey: 'id'})
-    public user_id: HasOne<typeof User>;
-
-    @hasOne(() => Phone, {localKey: 'phone_id', foreignKey: 'id'})
     public phone_id: HasOne<typeof Phone>;
 
     @column.dateTime({ autoCreate: true })

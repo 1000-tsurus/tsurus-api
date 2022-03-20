@@ -10,11 +10,6 @@ export default class SkillCategory extends BaseModel
     @column()
     public skill_name: string;
 
-    /** ----------------------- HasOne --------------------------- **/
-
-    @hasOne(() => User, {localKey: 'user_id', foreignKey: 'id'})
-    public user_id: HasOne<typeof User>;
-
     @column.dateTime({ autoCreate: true })
     public deleted_at: DateTime;
 }

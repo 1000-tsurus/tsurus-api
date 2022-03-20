@@ -10,11 +10,6 @@ export default class ToHelp extends BaseModel
     @column()
     public to_help_text: string;
 
-    /** ----------------------- HasOne --------------------------- **/
-
-    @hasOne(() => User, {localKey: 'user_id', foreignKey: 'id'})
-    public user_id: HasOne<typeof User>;
-
     @column.dateTime({ autoCreate: true })
     public createdAt: DateTime;
 }
