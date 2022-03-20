@@ -23,5 +23,5 @@ export default class UserToHelp extends BaseModel
     public to_help: HasOne<typeof ToHelp>;
 
     @column.dateTime({ autoCreate: true })
-    public createdAt: DateTime;
+    public created_at: DateTime;
 }

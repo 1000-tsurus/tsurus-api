@@ -19,5 +19,23 @@ export class UserValidator
         employer: schema.string({}, [rules.required()]),
         skill_name: schema.string({}, [rules.required()]),
         entry_date_time: schema.date({}, [rules.required()]),
+        phone: schema.object().members({
+            ddd: schema.string({ trim: true }, [
+                rules.minLength(2),
+                rules.maxLength(3),
+                rules.required(),
+            ]),
+            phone_number: schema.string({ trim: true }, [
+                rules.minLength(8),
+                rules.maxLength(9),
+                rules.required(),
+            ]),
+            country_code: schema.string.optional({ trim: true }, [
+                rules.minLength(2),
+                rules.maxLength(2),
+            ]),
+            is_wpp: schema.boolean(),
+            is_public: schema.boolean(),
+        }),
     });
 }

@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon';
-import { column, BaseModel, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm';
-import User from './User';
+import { column, BaseModel } from '@ioc:Adonis/Lucid/Orm';
 
 export default class Occupation extends BaseModel
 {
@@ -14,5 +13,8 @@ export default class Occupation extends BaseModel
     public occupation_date_time: DateTime;
 
     @column.dateTime({ autoCreate: true })
-    public createdAt: DateTime;
+    public created_at: DateTime;
+
+    @column.dateTime({ autoCreate: true })
+    public deleted_at: DateTime;
 }

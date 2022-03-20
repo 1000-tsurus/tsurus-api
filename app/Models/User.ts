@@ -46,35 +46,35 @@ export default class User extends BaseModel
     /* -------------------- ManyToMany ------------------- */
 
     @manyToMany(() => About, {
-        pivotTable: 'user_about',
+        pivotTable: 'user_abouts',
         pivotForeignKey: 'user_id',
         pivotRelatedForeignKey: 'about_id',
     })
     public abouts: ManyToMany<typeof About>;
 
     @manyToMany(() => Contact, {
-        pivotTable: 'user_contact',
+        pivotTable: 'user_contacts',
         pivotForeignKey: 'user_id',
         pivotRelatedForeignKey: 'contact_id',
     })
     public contact: ManyToMany<typeof Contact>;
 
     @manyToMany(() => Employer, {
-        pivotTable: 'user_employer',
+        pivotTable: 'user_employers',
         pivotForeignKey: 'user_id',
         pivotRelatedForeignKey: 'employer_id',
     })
     public employer: ManyToMany<typeof Employer>;
 
     @manyToMany(() => Occupation, {
-        pivotTable: 'user_occupation',
+        pivotTable: 'user_occupations',
         pivotForeignKey: 'user_id',
         pivotRelatedForeignKey: 'occupation_id',
     })
     public occupation: ManyToMany<typeof Occupation>;
 
     @manyToMany(() => Phone, {
-        pivotTable: 'user_phone',
+        pivotTable: 'phone_users',
         pivotForeignKey: 'user_id',
         pivotRelatedForeignKey: 'phone_id',
     })
@@ -88,14 +88,14 @@ export default class User extends BaseModel
     public skill_category: ManyToMany<typeof SkillCategory>;
 
     @manyToMany(() => ToHelp, {
-        pivotTable: 'user_to_help',
+        pivotTable: 'user_to_helps',
         pivotForeignKey: 'user_id',
         pivotRelatedForeignKey: 'to_help_id',
     })
     public to_help: ManyToMany<typeof ToHelp>;
 
     @manyToMany(() => Trajectory, {
-        pivotTable: 'user_trajectory',
+        pivotTable: 'user_trajectories',
         pivotForeignKey: 'user_id',
         pivotRelatedForeignKey: 'trajectory_id',
     })

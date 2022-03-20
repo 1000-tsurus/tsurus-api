@@ -2,7 +2,7 @@ import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 
 export default class Token extends BaseSchema
 {
-    protected tableName = 'token';
+    protected tableName = 'tokens';
 
     public async up ()
     {

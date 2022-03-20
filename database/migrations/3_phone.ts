@@ -2,7 +2,7 @@ import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 
 export default class Phone extends BaseSchema
 {
-    protected tableName = 'phone';
+    protected tableName = 'phones';
 
     public async up ()
     {

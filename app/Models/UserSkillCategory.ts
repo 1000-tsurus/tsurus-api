@@ -14,6 +14,9 @@ export default class UserSkill_category extends BaseModel
     @column()
     public skill_category_id: number;
 
+    @column.dateTime({ autoCreate: true })
+    public created_at: DateTime;
+
     /** ----------------------- ManyToMany --------------------------- **/
 
     @hasMany(() => User, {localKey: 'user_id', foreignKey: 'id'})

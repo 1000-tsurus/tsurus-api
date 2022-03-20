@@ -23,8 +23,8 @@ export default class UserEmployer extends BaseModel
     public employer: HasOne<typeof Employer>;
 
     @column.dateTime({ autoCreate: true })
-    public deletedAt: DateTime;
+    public deleted_at: DateTime;
 
     @column.dateTime({ autoCreate: true })
-    public createdAt: DateTime;
+    public created_at: DateTime;
 }

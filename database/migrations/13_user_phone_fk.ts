@@ -2,7 +2,7 @@ import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 
 export default class PhoneUser extends BaseSchema
 {
-    protected tableName = 'phone_user';
+    protected tableName = 'phone_users';
 
     public async up ()
     {
@@ -25,8 +25,12 @@ export default class PhoneUser extends BaseSchema
                 .notNullable()
                 .unsigned()
                 .references('id')
-                .inTable('phone')
+                .inTable('phones')
                 .onDelete('CASCADE');
+
+            table.timestamp('created_at', { useTz: true }).notNullable();
+            table.timestamp('updated_at', { useTz: true }).defaultTo(null);
+            table.dateTime('deleted_at').nullable().defaultTo(null);
         });
     }
 

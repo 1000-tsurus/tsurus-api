@@ -11,5 +11,5 @@ export default class Trajectory extends BaseModel
     public trajectory_text: string;
 
     @column.dateTime({ autoCreate: true })
-    public createdAt: DateTime;
+    public created_at: DateTime;
 }

@@ -20,5 +20,5 @@ export default class Employer extends BaseModel
     public deletedAt: DateTime;
 
     @column.dateTime({ autoCreate: true })
-    public createdAt: DateTime;
+    public created_at: DateTime;
 }

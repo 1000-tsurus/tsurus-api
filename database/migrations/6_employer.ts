@@ -2,7 +2,7 @@ import BaseSchema from '@ioc:Adonis/Lucid/Schema';
 
 export default class Employer extends BaseSchema
 {
-    protected tableName = 'employer';
+    protected tableName = 'employers';
 
     public async up ()
     {
@@ -16,6 +16,8 @@ export default class Employer extends BaseSchema
 
             table.dateTime('entry_date_time');
 
+            table.timestamp('created_at', { useTz: true }).notNullable();
+            table.timestamp('updated_at', { useTz: true }).defaultTo(null);
             table.dateTime('deleted_at').nullable().defaultTo(null);
         });
     }

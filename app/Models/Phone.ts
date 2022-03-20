@@ -23,8 +23,8 @@ export default class Phone extends BaseModel
     public is_public: boolean;
 
     @column.dateTime({ autoCreate: true })
-    public updatedAt: DateTime;
+    public updated_at: DateTime;
 
     @column.dateTime({ autoCreate: true })
-    public createdAt: DateTime;
+    public created_at: DateTime;
 }

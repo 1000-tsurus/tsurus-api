@@ -23,5 +23,5 @@ export default class UserTrajectory extends BaseModel
     public trajectory: HasOne<typeof Trajectory>;
 
     @column.dateTime({ autoCreate: true })
-    public createdAt: DateTime;
+    public created_at: DateTime;
 }

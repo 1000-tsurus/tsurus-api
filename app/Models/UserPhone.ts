@@ -3,7 +3,7 @@ import { column, BaseModel, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm';
 import User from './User';
 import Phone from './Phone';
 
-export default class UserPhone extends BaseModel
+export default class PhoneUser extends BaseModel
 {
     @column({ isPrimary: true })
     public id: number;
@@ -13,6 +13,9 @@ export default class UserPhone extends BaseModel
 
     @column()
     public phone_id: number;
+
+    @column.dateTime({ autoCreate: true })
+    public created_at: DateTime;
 
     /** ----------------------- HasOne --------------------------- **/
 

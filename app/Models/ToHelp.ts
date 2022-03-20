@@ -11,5 +11,5 @@ export default class ToHelp extends BaseModel
     public to_help_text: string;
 
     @column.dateTime({ autoCreate: true })
-    public createdAt: DateTime;
+    public created_at: DateTime;
 }

@@ -11,5 +11,8 @@ export default class SkillCategory extends BaseModel
     public skill_name: string;
 
     @column.dateTime({ autoCreate: true })
+    public created_at: DateTime;
+
+    @column.dateTime({ autoCreate: true })
     public deleted_at: DateTime;
 }

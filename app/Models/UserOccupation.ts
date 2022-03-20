@@ -23,5 +23,5 @@ export default class UserOccupation extends BaseModel
     public occupation: HasOne<typeof Occupation>;
 
     @column.dateTime({ autoCreate: true })
-    public createdAt: DateTime;
+    public created_at: DateTime;
 }

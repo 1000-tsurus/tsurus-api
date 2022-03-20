@@ -23,6 +23,10 @@ export default class UserSkill_category extends BaseSchema
                 .references('id')
                 .inTable('skill_categories')
                 .onDelete('CASCADE');
+
+            table.timestamp('created_at', { useTz: true }).notNullable();
+            table.timestamp('updated_at', { useTz: true }).defaultTo(null);
+            table.dateTime('deleted_at').nullable().defaultTo(null);
         });
     }
 
