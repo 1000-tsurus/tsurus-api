@@ -17,7 +17,9 @@ export class UserValidator
         to_help_text: schema.string({}, [rules.required()]),
         role: schema.string({}, [rules.required()]),
         employer: schema.string({}, [rules.required()]),
-        skill_name: schema.string({}, [rules.required()]),
+        skills: schema.array().members(
+            schema.string({}, [rules.required()]),
+        ),
         entry_date_time: schema.date({}, [rules.required()]),
         phone: schema.object().members({
             ddd: schema.string({ trim: true }, [

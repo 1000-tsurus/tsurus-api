@@ -51,7 +51,7 @@ export default class UserController
             role,
             employer,
             entry_date_time,
-            skill_name,
+            skills,
         } = await request.validate(UserValidator);
 
         let created_user: User | null = null;
@@ -80,7 +80,7 @@ export default class UserController
                 created_trajectory: Trajectory | null = null,
                 created_to_help: ToHelp | null = null,
                 created_employer: Employer | null = null,
-                created_skill_category: SkillCategory | null = null;
+                created_skill_category: number[] = [];
 
             try
             {
@@ -116,10 +116,29 @@ export default class UserController
                     created_at: DateTime.local(),
                 });
 
-                created_skill_category = await SkillCategory.create({
-                    skill_name,
-                    created_at: DateTime.local(),
-                });
+                for(let skill of skills)
+                {
+                    let the_category = await SkillCategory
+                        .query()
+                        .where(
+                            'skill_name', skill
+                        )
+                        .first();
+
+                    if(!the_category)
+                    {
+                        let this_category = await SkillCategory.create({
+                            skill_name: skill,
+                            created_at: DateTime.local(),
+                        });
+
+                        created_skill_category.push(this_category.id);
+                    }
+                    else
+                    {
+                        created_skill_category.push(the_category.id);
+                    }
+                }
             }
             catch (error)
             {
@@ -168,11 +187,14 @@ export default class UserController
                         created_at: DateTime.local(),
                     });
 
-                    await UserSkillCategory.create({
-                        user_id: created_user.id,
-                        skill_category_id: created_skill_category.id,
-                        created_at: DateTime.local(),
-                    });
+                    for(let category of created_skill_category)
+                    {
+                        await UserSkillCategory.create({
+                            user_id: created_user.id,
+                            skill_category_id: category,
+                            created_at: DateTime.local(),
+                        });
+                    }
 
                     response.ok(created_user);
                 }
