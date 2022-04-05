@@ -8,14 +8,14 @@ export default class Token extends BaseSchema
     {
         this.schema.alterTable(this.tableName, (table) =>
         {
-            table
-                .integer('user_id')
-                .unique()
-                .notNullable()
-                .unsigned()
-                .references('id')
-                .inTable('users')
-                .onDelete('CASCADE');
+            // table
+            //     .integer('user_id')
+            //     .unique()
+            //     .notNullable()
+            //     .unsigned()
+            //     .references('id')
+            //     .inTable('users')
+            //     .onDelete('CASCADE');
         });
     }
 

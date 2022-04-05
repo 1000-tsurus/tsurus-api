@@ -7,7 +7,7 @@ Route.group(() =>
     /* ---------- POSTS ---------- */
     Route.post('store', 'UserController.store');
     /* ---------- PUT ---------- */
-    Route.put('update', 'UserController.update');
+    // Route.put('update', 'UserController.update');
     /* ---------- DELETE ---------- */
-    Route.delete('destroy', 'UserController.destroy');
+    // Route.delete('destroy', 'UserController.destroy');
 }).prefix('user');

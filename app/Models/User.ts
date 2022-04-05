@@ -1,12 +1,11 @@
 import { DateTime } from 'luxon';
 import Hash from '@ioc:Adonis/Core/Hash';
-import { column, beforeSave, BaseModel, hasOne, HasOne, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm';
+import { column, beforeSave, BaseModel, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm';
 import About from './About';
 import Phone from './Phone';
 import Contact from './Contact';
 import Employer from './Employer';
 import Occupation from './Occupation';
-import UserPhone from './UserPhone';
 import SkillCategory from './SkillCategory';
 import ToHelp from './ToHelp';
 import Trajectory from './Trajectory';
