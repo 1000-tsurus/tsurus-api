@@ -17,8 +17,11 @@ export default class Employer extends BaseModel
     public entry_date_time: DateTime;
 
     @column.dateTime({ autoCreate: true })
-    public deletedAt: DateTime;
+    public created_at: DateTime;
 
     @column.dateTime({ autoCreate: true })
-    public created_at: DateTime;
+    public updated_at: DateTime;
+
+    @column.dateTime({ serializeAs: null })
+    public deleted_at: DateTime;
 }

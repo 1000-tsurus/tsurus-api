@@ -16,5 +16,8 @@ export default class Occupation extends BaseModel
     public created_at: DateTime;
 
     @column.dateTime({ autoCreate: true })
+    public updated_at: DateTime;
+
+    @column.dateTime({ serializeAs: null })
     public deleted_at: DateTime;
 }

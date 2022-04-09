@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon';
-import { column, BaseModel, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm';
-import User from './User';
+import { column, BaseModel } from '@ioc:Adonis/Lucid/Orm';
 
 export default class SkillCategory extends BaseModel
 {
@@ -14,5 +13,8 @@ export default class SkillCategory extends BaseModel
     public created_at: DateTime;
 
     @column.dateTime({ autoCreate: true })
+    public updated_at: DateTime;
+
+    @column.dateTime({ serializeAs: null })
     public deleted_at: DateTime;
 }

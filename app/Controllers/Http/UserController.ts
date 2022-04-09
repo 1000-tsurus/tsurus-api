@@ -19,19 +19,17 @@ export default class UserController
 {
     public async index ({ response }: HttpContextContract)
     {
-        let all_users = await User.query();
-
-        for(let user of all_users)
-        {
-            await user.load('employer');
-            await user.load('abouts');
-            await user.load('contact');
-            await user.load('occupation');
-            await user.load('skill_category');
-            await user.load('to_help');
-            await user.load('trajectory');
-            await user.load('phone');
-        }
+        let all_users = await User
+            .query()
+            .preload('abouts')
+            .preload('employer')
+            .preload('abouts')
+            .preload('contact')
+            .preload('occupation')
+            .preload('skill_category')
+            .preload('to_help')
+            .preload('trajectory')
+            .preload('phone');
 
         response.ok(all_users);
     }

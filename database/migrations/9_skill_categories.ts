@@ -14,7 +14,7 @@ export default class Skill_category extends BaseSchema
 
             table.timestamp('created_at', { useTz: true }).notNullable();
             table.timestamp('updated_at', { useTz: true }).defaultTo(null);
-            table.dateTime('deleted_at').nullable().defaultTo(null);
+            table.timestamp('deleted_at').nullable().defaultTo(null);
         });
     }
 

@@ -13,8 +13,8 @@ export default class Phone extends BaseSchema
             table.string('phone_number').notNullable();
             table.string('ddd', 3).notNullable();
             table.string('country_code').notNullable();
-            table.boolean('is_wpp').notNullable();
-            table.boolean('is_public').notNullable();
+            table.boolean('is_wpp').notNullable().defaultTo(false);
+            table.boolean('is_public').notNullable().defaultTo(true);
 
             /**
              * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

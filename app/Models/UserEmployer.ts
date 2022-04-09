@@ -22,7 +22,7 @@ export default class UserEmployer extends BaseModel
     @hasOne(() => Employer, {localKey: 'employer_id', foreignKey: 'id'})
     public employer: HasOne<typeof Employer>;
 
-    @column.dateTime({ autoCreate: true })
+    @column.dateTime({ serializeAs: null })
     public deleted_at: DateTime;
 
     @column.dateTime({ autoCreate: true })
