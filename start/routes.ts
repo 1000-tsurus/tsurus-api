@@ -6,6 +6,7 @@ import Database from '@ioc:Adonis/Lucid/Database';
 // importing files
 import './routes/user.ts';
 import './routes/auth.ts';
+import './routes/skill.ts';
 
 // Health Check
 Route.get('health', async ({ response }) =>
