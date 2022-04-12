@@ -5,7 +5,7 @@ Route.group(() =>
     /* ---------- GET ---------- */
     Route.get('index', 'SkillController.index');
     /* ---------- POSTS ---------- */
-    Route.post('store', 'UserController.store');
+    Route.post('store', 'SkillController.store');
     /* ---------- PUT ---------- */
     // Route.put('update', 'UserController.update');
     /* ---------- DELETE ---------- */

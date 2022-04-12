@@ -2,7 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import SkillCategory from 'App/Models/SkillCategory';
 import User from 'App/Models/User';
 import UserSkill_category from 'App/Models/UserSkillCategory';
-import SkillAttachValidator from 'App/Validators/SkillValidator';
+import {SkillAttachValidator, CreateSkill } from 'App/Validators/SkillValidator';
 
 export default class SkillController
 {
@@ -18,7 +18,7 @@ export default class SkillController
     {
         const {
             name,
-        } = await request.all();
+        } = await request.validate(CreateSkill);
 
         let created_skill: SkillCategory | null = null;
 

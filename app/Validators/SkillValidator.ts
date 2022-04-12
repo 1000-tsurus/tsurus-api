@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { rules, schema } from '@ioc:Adonis/Core/Validator';
 
-export default class SkillAttachValidator
+export class SkillAttachValidator
 {
     constructor (protected ctx: HttpContextContract)
     {}
@@ -13,5 +13,15 @@ export default class SkillAttachValidator
                 rules.exists({ column: 'id', table: 'skill_categories' }),
             ])
         ),
+    });
+}
+
+export class CreateSkill
+{
+    constructor (protected ctx: HttpContextContract)
+    {}
+
+    public schema = schema.create({
+        name: schema.string(),
     });
 }
