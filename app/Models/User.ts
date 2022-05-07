@@ -31,6 +31,9 @@ export default class User extends BaseModel
     public type_id: number;
 
     @column()
+    public likes: number;
+
+    @column()
     public about: string;
 
     @column.dateTime({ autoCreate: true })

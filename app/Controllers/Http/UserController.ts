@@ -203,4 +203,26 @@ export default class UserController
             }
         }
     }
+
+    public async likeUser ({ params, auth, response }: HttpContextContract)
+    {
+        const {user} = auth,
+            {id} = params;
+
+        if(!user){
+            response.unauthorized('You must be logged in to like a user');
+        }
+
+        try {
+            let liked_user = await User.find(id);
+
+            liked_user?.merge({
+                likes: liked_user.likes + 1
+            }).save();
+
+            return response.ok(liked_user);
+        } catch (error) {
+            return response.internalServerError(error);
+        }
+    }
 }
