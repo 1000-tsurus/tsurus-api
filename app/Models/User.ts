@@ -9,6 +9,7 @@ import Occupation from './Occupation';
 import SkillCategory from './SkillCategory';
 import ToHelp from './ToHelp';
 import Trajectory from './Trajectory';
+import UserLikeUser from '../../database/migrations/22_user_like_user';
 
 export default class User extends BaseModel
 {
@@ -29,9 +30,6 @@ export default class User extends BaseModel
 
     @column()
     public type_id: number;
-
-    @column()
-    public likes: number;
 
     @column()
     public about: string;
@@ -102,6 +100,13 @@ export default class User extends BaseModel
         pivotRelatedForeignKey: 'trajectory_id',
     })
     public trajectory: ManyToMany<typeof Trajectory>;
+
+    @manyToMany(() => UserLikeUser, {
+        pivotTable: 'user_like_user',
+        pivotForeignKey: 'user_id',
+        pivotRelatedForeignKey: 'liked_user_id',
+    })
+    public likes: ManyToMany<typeof UserLikeUser>;
 
     @beforeSave()
     public static async hashPassword (user: User)
