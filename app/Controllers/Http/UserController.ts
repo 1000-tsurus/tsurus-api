@@ -14,11 +14,14 @@ import UserToHelp from 'App/Models/UserToHelp';
 import UserTrajectory from 'App/Models/UserTrajetory';
 import { UserValidator } from 'App/Validators/UserValidator';
 import {DateTime} from 'luxon';
+import UserLikeUser from '../../../database/migrations/22_user_like_user';
 
 export default class UserController
 {
-    public async index ({ response }: HttpContextContract)
+    public async index ({ response, auth }: HttpContextContract)
     {
+        const {user: loggedUser} = auth
+
         let all_users = await User
             .query()
             .preload('abouts')
@@ -29,8 +32,20 @@ export default class UserController
             .preload('skill_category')
             .preload('to_help')
             .preload('trajectory')
-            .preload('phone');
+            .preload('phone')
 
+        if(loggedUser){
+            for(let [index, user] of all_users.entries())
+            {
+                all_users[index].youLiked = 
+                    await UserLikeUser
+                        .query()
+                        .where('user_id', loggedUser.id)
+                        .andWhere('liked_user_id', user.id)
+                        .first()
+            }
+        }
+        
         response.ok(all_users);
     }
 
@@ -214,11 +229,10 @@ export default class UserController
         }
 
         try {
-            let liked_user = await User.find(id);
-
-            liked_user?.merge({
-                likes: liked_user.likes + 1
-            }).save();
+            await UserLikeUser.create({
+                user_id: user.id,
+                liked_user_id: id
+            })
 
             return response.ok(liked_user);
         } catch (error) {

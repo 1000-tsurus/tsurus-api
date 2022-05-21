@@ -15,7 +15,6 @@ export default class UsersSchema extends BaseSchema
             table.string('icon_url', 255).notNullable();
             table.integer('type_id').notNullable();
             table.string('about', 255).notNullable();
-            table.integer('likes').notNullable().defaultTo(0);
 
             /**
              * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL
