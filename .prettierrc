@@ -7,5 +7,9 @@
 	"bracketSpacing": true,
 	"arrowParens": "always",
 	"printWidth": 100,
-	"tabWidth": 4
+	"tabWidth": 4,
+	"editor.formatOnSave": true,
+	"proseWrap": "always",
+	"requireConfig": false,
+	"jsxBracketSameLine": false
 }
