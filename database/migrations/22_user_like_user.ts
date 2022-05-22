@@ -21,7 +21,7 @@ export default class UserLikeUser extends BaseSchema
                 .integer('liked_user_id')
                 .unsigned()
                 .references('id')
-                .inTable('user_id')
+                .inTable('users')
                 .onDelete('CASCADE');
 
             table.timestamp('created_at', { useTz: true }).notNullable();
