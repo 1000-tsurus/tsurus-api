@@ -11,15 +11,14 @@ export class UserValidator
         password: schema.string({}, [rules.required()]),
         email: schema.string({}, [rules.required()]),
         icon_url: schema.string.optional({}),
-        about: schema.string({}, [rules.required()]),
-        occupation_name: schema.string({}, [rules.required()]),
+        // occupation_name: schema.string({}, [rules.required()]),
         trajectory_text: schema.string({}, [rules.required()]),
         to_help_text: schema.string({}, [rules.required()]),
         role: schema.string({}, [rules.required()]),
-        employer: schema.string({}, [rules.required()]),
-        skills: schema.array().members(
-            schema.string({}, [rules.required()]),
-        ),
+        employer: schema.string.optional({}),
+        skills: schema.array().members(schema.number([
+            rules.exists({ column: 'id', table: 'skill_categories' }),
+        ])),
         entry_date_time: schema.date({}, [rules.required()]),
         phone: schema.object().members({
             ddd: schema.string({ trim: true }, [

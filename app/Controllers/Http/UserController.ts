@@ -7,6 +7,7 @@ import ToHelp from 'App/Models/ToHelp';
 import Trajectory from 'App/Models/Trajectory';
 import User from 'App/Models/User';
 import UserEmployer from 'App/Models/UserEmployer';
+import UserLikeUser from 'App/Models/UserLikeUser';
 import UserOccupation from 'App/Models/UserOccupation';
 import PhoneUser from 'App/Models/UserPhone';
 import UserSkillCategory from 'App/Models/UserSkillCategory';
@@ -14,13 +15,12 @@ import UserToHelp from 'App/Models/UserToHelp';
 import UserTrajectory from 'App/Models/UserTrajetory';
 import { UserValidator } from 'App/Validators/UserValidator';
 import {DateTime} from 'luxon';
-import UserLikeUser from '../../../database/migrations/22_user_like_user';
 
 export default class UserController
 {
     public async index ({ response, auth }: HttpContextContract)
     {
-        const {user: loggedUser} = auth
+        const {user: currentUser} = auth
 
         let all_users = await User
             .query()
@@ -34,17 +34,17 @@ export default class UserController
             .preload('trajectory')
             .preload('phone')
 
-        if(loggedUser){
-            for(let [index, user] of all_users.entries())
-            {
-                all_users[index].youLiked = 
-                    await UserLikeUser
-                        .query()
-                        .where('user_id', loggedUser.id)
-                        .andWhere('liked_user_id', user.id)
-                        .first()
-            }
-        }
+        // if(currentUser){
+        //     for(let [index, user] of all_users.entries())
+        //     {
+        //         all_users[index].youLiked = 
+        //             await UserLikeUser
+        //                 .query()
+        //                 .where('user_id', currentUser.id)
+        //                 .andWhere('liked_user_id', user.id)
+        //                 .first()
+        //     }
+        // }
         
         response.ok(all_users);
     }
@@ -57,8 +57,7 @@ export default class UserController
             email,
             icon_url,
             phone,
-            about,
-            occupation_name,
+            // occupation_name,
             trajectory_text,
             to_help_text,
             role,
@@ -76,7 +75,6 @@ export default class UserController
                 password,
                 email,
                 icon_url,
-                about,
                 type_id: 1,
                 created_at: DateTime.now(),
             });
@@ -92,8 +90,7 @@ export default class UserController
                 created_occupation: Occupation | null = null,
                 created_trajectory: Trajectory | null = null,
                 created_to_help: ToHelp | null = null,
-                created_employer: Employer | null = null,
-                created_skill_category: number[] = [];
+                created_employer: Employer | null = null
 
             try
             {
@@ -106,11 +103,11 @@ export default class UserController
                     created_at: DateTime.now(),
                 });
 
-                created_occupation = await Occupation.create({
-                    occupation_name,
-                    occupation_date_time: entry_date_time,
-                    created_at: DateTime.now(),
-                });
+                // created_occupation = await Occupation.create({
+                //     occupation_name,
+                //     occupation_date_time: entry_date_time,
+                //     created_at: DateTime.now(),
+                // });
 
                 created_trajectory = await Trajectory.create({
                     trajectory_text,
@@ -129,29 +126,29 @@ export default class UserController
                     created_at: DateTime.local(),
                 });
 
-                for(let skill of skills)
-                {
-                    let the_category = await SkillCategory
-                        .query()
-                        .where(
-                            'skill_name', skill
-                        )
-                        .first();
+                // for(let skill of skills)
+                // {
+                //     let the_category = await SkillCategory
+                //         .query()
+                //         .where(
+                //             'skill_name', skill
+                //         )
+                //         .first();
 
-                    if(!the_category)
-                    {
-                        let this_category = await SkillCategory.create({
-                            skill_name: skill,
-                            created_at: DateTime.local(),
-                        });
+                //     if(!the_category)
+                //     {
+                //         let this_category = await SkillCategory.create({
+                //             skill_name: skill,
+                //             created_at: DateTime.local(),
+                //         });
 
-                        created_skill_category.push(this_category.id);
-                    }
-                    else
-                    {
-                        created_skill_category.push(the_category.id);
-                    }
-                }
+                //         created_skill_category.push(this_category.id);
+                //     }
+                //     else
+                //     {
+                //         created_skill_category.push(the_category.id);
+                //     }
+                // }
             }
             catch (error)
             {
@@ -159,11 +156,10 @@ export default class UserController
             }
 
             if (
-                created_occupation &&
                 created_trajectory &&
                 created_to_help &&
                 created_employer &&
-                created_skill_category &&
+                skills &&
                 created_phone
             )
             {
@@ -176,11 +172,11 @@ export default class UserController
                         created_at: DateTime.local(),
                     });
 
-                    await UserOccupation.create({
-                        user_id: created_user.id,
-                        occupation_id: created_occupation.id,
-                        created_at: DateTime.local(),
-                    });
+                    // await UserOccupation.create({
+                    //     user_id: created_user.id,
+                    //     occupation_id: created_occupation.id,
+                    //     created_at: DateTime.local(),
+                    // });
 
                     await UserTrajectory.create({
                         user_id: created_user.id,
@@ -200,7 +196,7 @@ export default class UserController
                         created_at: DateTime.local(),
                     });
 
-                    for(let category of created_skill_category)
+                    for(let category of skills)
                     {
                         await UserSkillCategory.create({
                             user_id: created_user.id,
@@ -230,11 +226,11 @@ export default class UserController
 
         try {
             await UserLikeUser.create({
-                user_id: user.id,
+                user_id: user!.id,
                 liked_user_id: id
             })
 
-            return response.ok(liked_user);
+            return response.ok({liked: true});
         } catch (error) {
             return response.internalServerError(error);
         }
