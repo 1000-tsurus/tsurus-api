@@ -1,14 +1,11 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Employer from 'App/Models/Employer';
-import Occupation from 'App/Models/Occupation';
 import Phone from 'App/Models/Phone';
-import SkillCategory from 'App/Models/SkillCategory';
 import ToHelp from 'App/Models/ToHelp';
 import Trajectory from 'App/Models/Trajectory';
 import User from 'App/Models/User';
 import UserEmployer from 'App/Models/UserEmployer';
 import UserLikeUser from 'App/Models/UserLikeUser';
-import UserOccupation from 'App/Models/UserOccupation';
 import PhoneUser from 'App/Models/UserPhone';
 import UserSkillCategory from 'App/Models/UserSkillCategory';
 import UserToHelp from 'App/Models/UserToHelp';
@@ -18,10 +15,8 @@ import {DateTime} from 'luxon';
 
 export default class UserController
 {
-    public async index ({ response, auth }: HttpContextContract)
+    public async index ({ response }: HttpContextContract)
     {
-        const {user: currentUser} = auth
-
         let all_users = await User
             .query()
             .preload('abouts')
@@ -33,18 +28,6 @@ export default class UserController
             .preload('to_help')
             .preload('trajectory')
             .preload('phone')
-
-        // if(currentUser){
-        //     for(let [index, user] of all_users.entries())
-        //     {
-        //         all_users[index].youLiked = 
-        //             await UserLikeUser
-        //                 .query()
-        //                 .where('user_id', currentUser.id)
-        //                 .andWhere('liked_user_id', user.id)
-        //                 .first()
-        //     }
-        // }
         
         response.ok(all_users);
     }
@@ -57,7 +40,6 @@ export default class UserController
             email,
             icon_url,
             phone,
-            // occupation_name,
             trajectory_text,
             to_help_text,
             role,
@@ -87,7 +69,6 @@ export default class UserController
         if (created_user)
         {
             let created_phone: Phone | null = null,
-                created_occupation: Occupation | null = null,
                 created_trajectory: Trajectory | null = null,
                 created_to_help: ToHelp | null = null,
                 created_employer: Employer | null = null
@@ -102,12 +83,6 @@ export default class UserController
                     is_public: phone.is_public,
                     created_at: DateTime.now(),
                 });
-
-                // created_occupation = await Occupation.create({
-                //     occupation_name,
-                //     occupation_date_time: entry_date_time,
-                //     created_at: DateTime.now(),
-                // });
 
                 created_trajectory = await Trajectory.create({
                     trajectory_text,
@@ -125,30 +100,6 @@ export default class UserController
                     role,
                     created_at: DateTime.local(),
                 });
-
-                // for(let skill of skills)
-                // {
-                //     let the_category = await SkillCategory
-                //         .query()
-                //         .where(
-                //             'skill_name', skill
-                //         )
-                //         .first();
-
-                //     if(!the_category)
-                //     {
-                //         let this_category = await SkillCategory.create({
-                //             skill_name: skill,
-                //             created_at: DateTime.local(),
-                //         });
-
-                //         created_skill_category.push(this_category.id);
-                //     }
-                //     else
-                //     {
-                //         created_skill_category.push(the_category.id);
-                //     }
-                // }
             }
             catch (error)
             {
@@ -171,12 +122,6 @@ export default class UserController
                         phone_id: created_phone.id,
                         created_at: DateTime.local(),
                     });
-
-                    // await UserOccupation.create({
-                    //     user_id: created_user.id,
-                    //     occupation_id: created_occupation.id,
-                    //     created_at: DateTime.local(),
-                    // });
 
                     await UserTrajectory.create({
                         user_id: created_user.id,
@@ -210,6 +155,50 @@ export default class UserController
                 catch (error)
                 {
                     response.internalServerError(error);
+                }
+            }
+        }
+    }
+
+    public async show ({ response, params }: HttpContextContract)
+    {
+        let target_user = await User
+            .query()
+            .where('id', params.userId)
+            .preload('abouts')
+            .preload('employer')
+            .preload('abouts')
+            .preload('contact')
+            .preload('occupation')
+            .preload('skill_category')
+            .preload('to_help')
+            .preload('trajectory')
+            .preload('phone')
+            .firstOrFail();
+
+        let final_data;
+
+        if(target_user)
+        {
+            final_data = target_user;  // retorna o objeto com todos os dados
+            
+            for(let key in final_data)
+            {
+                switch (final_data[key]) {
+                    case null:
+                        delete final_data[key];
+                        break;
+                    case 'password':
+                        delete final_data[key];
+                        break;
+                    case 'phone_number':
+                        delete final_data[key];
+                        break;
+                    case 'phone_number':
+                        delete final_data[key];
+                        break;
+                    default:
+                        break;
                 }
             }
         }
